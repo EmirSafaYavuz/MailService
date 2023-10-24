@@ -38,8 +38,8 @@ namespace MailService.Controllers
                     smtpClient.EnableSsl = true;
 
                     var mailMessage = new MailMessage();
-                    mailMessage.From = new MailAddress(userName);
-                    mailMessage.To.Add(emailRequest.Mail);
+                    mailMessage.From = new MailAddress(emailRequest.From);
+                    mailMessage.To.Add(emailRequest.To);
                     mailMessage.Subject = emailRequest.Subject;
                     var emailBody = $"İsim: {emailRequest.Name}\n" +
                                     $"E-Posta: {emailRequest.Mail}\n" +
@@ -52,7 +52,7 @@ namespace MailService.Controllers
                     return Ok("E-posta başarıyla gönderildi.");
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return BadRequest($"E-posta gönderme hatası: {ex.Message}");
             }
