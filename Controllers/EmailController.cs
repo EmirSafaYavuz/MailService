@@ -35,12 +35,12 @@ namespace MailService.Controllers
                 using (var smtpClient = new SmtpClient(smtpServer, port))
                 {
                     smtpClient.Credentials = new NetworkCredential(userName, password);
-                    smtpClient.EnableSsl = true;
+                    smtpClient.EnableSsl = false;
 
                     var mailMessage = new MailMessage();
-                    mailMessage.From = new MailAddress(emailRequest.From);
+                    mailMessage.From = new MailAddress(userName);
                     mailMessage.To.Add(emailRequest.To);
-                    mailMessage.Subject = emailRequest.Subject;
+                    mailMessage.Subject = emailRequest.From;
                     var emailBody = $"İsim: {emailRequest.Name}\n" +
                                     $"E-Posta: {emailRequest.Mail}\n" +
                                     $"Telefon Numarası: {emailRequest.PhoneNumber}\n\n" +
@@ -52,7 +52,7 @@ namespace MailService.Controllers
                     return Ok("E-posta başarıyla gönderildi.");
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest($"E-posta gönderme hatası: {ex.Message}");
             }
